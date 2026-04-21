@@ -1,79 +1,629 @@
 <!DOCTYPE html>
-<html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<link rel="icon" type="image/png" sizes="32x32" href="./imagens/favicon-32x32.png" />
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>José Augusto Guerra — Dev & DBA</title>
 
-		<link rel="preconnect" href="https://fonts.googleapis.com" />
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-		<link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=VT323&family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
 
-		<link rel="stylesheet" href="./src/css/reset.css" />
-		<link rel="stylesheet" href="./src/css/rolagem.css" />
-		<link rel="stylesheet" href="./src/css/estilos.css" />
+    <style>
+      /* ── Reset & Base ──────────────────────────────────────────────── */
+      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-		<title>Projeto Mini Portfólio</title>
-	</head>
-	<body>
-		<main class="cartao">
-			<div class="minhas-informacoes">
-				<img src="./src/imagens/foto-perfil.jpg" alt="foto de perfil" />
-				<h1 class="nome">José Augusto Guerra da Silva</h1>
-				<h2 class="cargo">Analista de Sistema e DBA</h2>
-			</div>
+      :root {
+        --bg:        #0d0f14;
+        --surface:   #13161e;
+        --surface2:  #1a1e28;
+        --border:    #252a38;
+        --accent:    #e8c97d;
+        --accent2:   #6de0b3;
+        --text:      #d4d8e2;
+        --muted:     #6b7280;
+        --red:       #e07c6d;
 
-			<div class="conteudo">
-				<ul class="abas">
-					<li class="aba selecionado" id="sobre-mim">
-						<img src="./src/imagens/sobre.gif" alt="ícone de sobre mim" />
-					</li>
+        --font-display: 'DM Serif Display', Georgia, serif;
+        --font-mono:    'DM Mono', 'Courier New', monospace;
+        --font-vt:      'VT323', monospace;
 
-					<li class="aba" id="minhas-redes">
-						<img src="./src/imagens/coracao.gif" alt="ícone de redes sociais" />
-					</li>
-				</ul>
+        --radius:    12px;
+        --radius-sm: 6px;
+        --shadow:    0 8px 40px rgba(0,0,0,.5);
+      }
 
-				<div class="informacoes-abas">
-					<div class="informacao selecionado" id="informacao-sobre-mim">
-						<h3 class="sub-titulo">Sobre</h3>
-						<div class="descricao">
-							Oi! meu nome é <span>José Augusto Guerra da Silva</span>, seja bem-vindo(a)!<br><br>
+      html { scroll-behavior: smooth; }
 
-							<p>
-								Olá! Seja bem-vindo(a) ao meu portfólio!
+      body {
+        background-color: var(--bg);
+        color: var(--text);
+        font-family: var(--font-mono);
+        font-size: 14px;
+        line-height: 1.7;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 24px 16px;
+        background-image:
+          radial-gradient(ellipse 80% 60% at 70% 10%, rgba(232,201,125,.06) 0%, transparent 60%),
+          radial-gradient(ellipse 60% 50% at 10% 90%, rgba(109,224,179,.05) 0%, transparent 60%);
+      }
 
-Meu nome é José Augusto Guerra da Silva, e sou Analista de Sistemas, DBA e cursando pós-graduação em Engenharia de Software. A tecnologia entrou na minha vida aos 13 anos, quando comecei a explorar o fascinante mundo da programação e desde então, minha paixão pela área só cresceu.<br><br>
+      /* ── Card ──────────────────────────────────────────────────────── */
+      .card {
+        width: 100%;
+        max-width: 700px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        overflow: hidden;
+        animation: fadeUp .6s cubic-bezier(.22,1,.36,1) both;
+      }
 
-Atualmente, atuo com foco em banco de dados e processos de ETL. Tenho sólida experiência em <span> SQL Server, SSIS e Oracle</span>, desenvolvendo pipelines de ETL completos e otimizando consultas e estruturas de dados. Também estou aprimorando projetos em Node.js, Python e C#, explorando dashboards, automação e integração com APIs.<br><br>
+      /* ── Header / Profile ──────────────────────────────────────────── */
+      .profile {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        padding: 28px 28px 22px;
+        border-bottom: 1px solid var(--border);
+        background: var(--surface2);
+        position: relative;
+        overflow: hidden;
+      }
 
-Já trabalhei com sistemas e bancos de dados na Caixa Econômica Federal e possuo experiência como Analista de Suporte, o que fortaleceu minhas habilidades em troubleshooting, gerenciamento de dados e atendimento técnico.<br><br>
+      .profile::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 3px,
+          rgba(255,255,255,.012) 3px,
+          rgba(255,255,255,.012) 4px
+        );
+        pointer-events: none;
+      }
 
-Além do trabalho com dados e desenvolvimento de software, dedico parte do meu tempo livre a projetos como análise de mobilidade urbana com Python e visualização de dados em Streamlit, utilizando APIs públicas e ferramentas de geoprocessamento.<br><br>
+      .profile-avatar {
+        width: 72px;
+        height: 72px;
+        border-radius: 50%;
+        border: 2px solid var(--accent);
+        object-fit: cover;
+        flex-shrink: 0;
+        background: var(--border);
+      }
 
-Por fim, sou movido por curiosidade, aprendizado contínuo e, claro, por um bom café! Meus hobbies incluem jogar MMO RPG, assistir animes e séries, e explorar novas tecnologias.<br><br>
+      /* Placeholder avatar when image doesn't load */
+      .avatar-placeholder {
+        width: 72px;
+        height: 72px;
+        border-radius: 50%;
+        border: 2px solid var(--accent);
+        background: var(--surface);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: var(--font-display);
+        font-size: 26px;
+        color: var(--accent);
+        flex-shrink: 0;
+      }
 
-Fique à vontade para explorar meus projetos aqui no portfólio e entrar em contato!
-							</p>
-						</div>
-					</div>
-					<div class="informacao" id="informacao-minhas-redes">
-						<h3 class="sub-titulo">Minhas Redes</h3>
-						<ul class="redes-sociais">
-							<li>
-								<a href="https://jaugustoguerra.github.io/meu-curriculo/" target="_blank" class="curriculo">Currículo</a>
-							</li>
-							<li>
-								<a href="https://www.linkedin.com/in/augusto-guerra-silva/" target="_blank" class="linkedin">Linkedln</a>
-							</li>
-							<li>
-								<a href="https://github.com/jaugustoguerra" target="_blank" class="github">GitHub</a>
-							</li>
-						</ul>
-					</div>
-				</div>
-			</div>
-		</main>
-		<script src="./src/js/index.js"></script>
-	</body>
+      .profile-info { flex: 1; }
+
+      .profile-name {
+        font-family: var(--font-display);
+        font-size: 1.55rem;
+        color: #fff;
+        line-height: 1.2;
+        letter-spacing: -.01em;
+      }
+
+      .profile-role {
+        margin-top: 4px;
+        font-family: var(--font-vt);
+        font-size: 1.15rem;
+        color: var(--accent);
+        letter-spacing: .05em;
+      }
+
+      .profile-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        margin-top: 8px;
+        padding: 3px 10px;
+        background: rgba(109,224,179,.1);
+        border: 1px solid rgba(109,224,179,.25);
+        border-radius: 20px;
+        font-size: 11px;
+        color: var(--accent2);
+        letter-spacing: .04em;
+      }
+
+      .profile-badge::before {
+        content: '';
+        width: 6px; height: 6px;
+        border-radius: 50%;
+        background: var(--accent2);
+        animation: pulse 2s ease-in-out infinite;
+      }
+
+      /* ── Tabs ──────────────────────────────────────────────────────── */
+      .tabs {
+        display: flex;
+        gap: 0;
+        border-bottom: 1px solid var(--border);
+        background: var(--surface);
+      }
+
+      .tab-btn {
+        flex: 1;
+        padding: 13px 16px;
+        background: none;
+        border: none;
+        border-bottom: 2px solid transparent;
+        cursor: pointer;
+        font-family: var(--font-vt);
+        font-size: 1.1rem;
+        letter-spacing: .06em;
+        color: var(--muted);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        transition: color .2s, border-color .2s, background .2s;
+        margin-bottom: -1px;
+      }
+
+      .tab-btn:hover { color: var(--text); background: rgba(255,255,255,.03); }
+
+      .tab-btn.active {
+        color: var(--accent);
+        border-bottom-color: var(--accent);
+      }
+
+      .tab-icon { font-size: 1.2rem; }
+
+      /* ── Tab Panels ────────────────────────────────────────────────── */
+      .tab-panel {
+        display: none;
+        padding: 28px;
+        animation: fadeIn .25s ease both;
+      }
+
+      .tab-panel.active { display: block; }
+
+      /* ── About Section ─────────────────────────────────────────────── */
+      .section-title {
+        font-family: var(--font-display);
+        font-size: 1.1rem;
+        color: var(--accent);
+        margin-bottom: 14px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .section-title::after {
+        content: '';
+        flex: 1;
+        height: 1px;
+        background: linear-gradient(to right, var(--border), transparent);
+      }
+
+      .intro-text {
+        color: var(--text);
+        margin-bottom: 22px;
+        font-size: 13.5px;
+      }
+
+      .intro-text span {
+        color: var(--accent);
+        font-weight: 500;
+      }
+
+      /* skill blocks */
+      .skill-block {
+        background: var(--surface2);
+        border: 1px solid var(--border);
+        border-left: 3px solid var(--accent);
+        border-radius: var(--radius-sm);
+        padding: 14px 16px;
+        margin-bottom: 10px;
+      }
+
+      .skill-block.green  { border-left-color: var(--accent2); }
+      .skill-block.red    { border-left-color: var(--red); }
+
+      .skill-block-title {
+        font-family: var(--font-display);
+        font-style: italic;
+        font-size: .92rem;
+        color: #fff;
+        margin-bottom: 5px;
+      }
+
+      .skill-block p {
+        font-size: 12.5px;
+        color: var(--muted);
+        line-height: 1.6;
+      }
+
+      .skill-block p strong {
+        color: var(--text);
+        font-weight: 500;
+      }
+
+      /* tags */
+      .tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-top: 8px;
+      }
+
+      .tag {
+        padding: 2px 8px;
+        border-radius: 4px;
+        font-size: 11px;
+        letter-spacing: .03em;
+        background: rgba(232,201,125,.1);
+        color: var(--accent);
+        border: 1px solid rgba(232,201,125,.2);
+      }
+
+      .tag.green {
+        background: rgba(109,224,179,.08);
+        color: var(--accent2);
+        border-color: rgba(109,224,179,.2);
+      }
+
+      .tag.red {
+        background: rgba(224,124,109,.08);
+        color: var(--red);
+        border-color: rgba(224,124,109,.2);
+      }
+
+      .hobbies {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 10px;
+      }
+
+      .hobby {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        padding: 5px 12px;
+        background: var(--surface2);
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        font-size: 12px;
+        color: var(--muted);
+      }
+
+      /* ── Social Links ──────────────────────────────────────────────── */
+      .social-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+
+      .social-link {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 16px 18px;
+        background: var(--surface2);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+        text-decoration: none;
+        color: var(--text);
+        transition: border-color .2s, background .2s, transform .15s;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .social-link::before {
+        content: '';
+        position: absolute;
+        left: 0; top: 0; bottom: 0;
+        width: 3px;
+        transition: opacity .2s;
+        opacity: 0;
+      }
+
+      .social-link:hover { transform: translateX(3px); }
+
+      .social-link.curriculo:hover  { border-color: var(--accent);  background: rgba(232,201,125,.06); }
+      .social-link.curriculo::before { background: var(--accent); }
+      .social-link.curriculo:hover::before { opacity: 1; }
+
+      .social-link.linkedin:hover  { border-color: #0077b5; background: rgba(0,119,181,.06); }
+      .social-link.linkedin::before { background: #0077b5; }
+      .social-link.linkedin:hover::before { opacity: 1; }
+
+      .social-link.github:hover   { border-color: var(--accent2); background: rgba(109,224,179,.06); }
+      .social-link.github::before { background: var(--accent2); }
+      .social-link.github:hover::before { opacity: 1; }
+
+      .social-icon {
+        width: 36px;
+        height: 36px;
+        border-radius: var(--radius-sm);
+        background: var(--border);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.1rem;
+        flex-shrink: 0;
+      }
+
+      .social-label { font-family: var(--font-display); font-size: 1rem; color: #fff; }
+      .social-desc  { font-size: 11px; color: var(--muted); margin-top: 1px; }
+
+      .social-arrow {
+        margin-left: auto;
+        color: var(--muted);
+        font-size: 1rem;
+        transition: transform .2s;
+      }
+
+      .social-link:hover .social-arrow { transform: translateX(4px); color: var(--text); }
+
+      /* ── Footer ────────────────────────────────────────────────────── */
+      .card-footer {
+        padding: 12px 28px;
+        border-top: 1px solid var(--border);
+        background: var(--surface2);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 11px;
+        color: var(--muted);
+        font-family: var(--font-vt);
+        letter-spacing: .05em;
+      }
+
+      .footer-status {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        color: var(--accent2);
+      }
+
+      /* ── Animations ────────────────────────────────────────────────── */
+      @keyframes fadeUp {
+        from { opacity: 0; transform: translateY(20px); }
+        to   { opacity: 1; transform: translateY(0); }
+      }
+
+      @keyframes fadeIn {
+        from { opacity: 0; }
+        to   { opacity: 1; }
+      }
+
+      @keyframes pulse {
+        0%, 100% { opacity: 1; }
+        50%       { opacity: .4; }
+      }
+
+      /* ── Scrollbar ─────────────────────────────────────────────────── */
+      ::-webkit-scrollbar { width: 6px; }
+      ::-webkit-scrollbar-track { background: var(--surface); }
+      ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+    </style>
+  </head>
+
+  <body>
+    <main class="card" role="main">
+
+      <!-- ── Profile Header ── -->
+      <header class="profile">
+        <img src="./src/imagens/foto-perfil.png" alt="Foto de perfil de José Augusto" class="profile-avatar" />
+        <div class="profile-info">
+          <h1 class="profile-name">José Augusto Guerra da Silva</h1>
+          <p class="profile-role">Desenvolvedor &amp; DBA</p>
+          <span class="profile-badge">Disponível para projetos</span>
+        </div>
+      </header>
+
+      <!-- ── Tabs ── -->
+      <nav class="tabs" role="tablist" aria-label="Seções do portfólio">
+        <button
+          class="tab-btn active"
+          id="tab-sobre"
+          role="tab"
+          aria-selected="true"
+          aria-controls="panel-sobre"
+          onclick="switchTab('sobre')"
+        >
+          <span class="tab-icon">👤</span> Sobre mim
+        </button>
+        <button
+          class="tab-btn"
+          id="tab-redes"
+          role="tab"
+          aria-selected="false"
+          aria-controls="panel-redes"
+          onclick="switchTab('redes')"
+        >
+          <span class="tab-icon">🔗</span> Minhas Redes
+        </button>
+      </nav>
+
+      <!-- ── Panel: Sobre ── -->
+      <section
+        class="tab-panel active"
+        id="panel-sobre"
+        role="tabpanel"
+        aria-labelledby="tab-sobre"
+      >
+        <p class="intro-text">
+          Oi! meu nome é <span>José Augusto Guerra da Silva</span>, seja bem-vindo(a)!
+          Atualmente na <span>Prosas</span> como desenvolvedor, criando soluções de alta eficiência.
+        </p>
+
+        <!-- Orquestração -->
+        <div class="section-title">⚙️ Desenvolvimento &amp; Automação</div>
+        <div class="skill-block">
+          <p class="skill-block-title">Orquestração e Integração</p>
+          <p>Domínio avançado de <strong>n8n</strong> para automação de fluxos complexos, conectando APIs, CRMs e bancos de dados.</p>
+          <div class="tags">
+            <span class="tag">n8n</span>
+            <span class="tag">APIs</span>
+            <span class="tag">CRM</span>
+            <span class="tag">Integração</span>
+          </div>
+        </div>
+
+        <div class="skill-block">
+          <p class="skill-block-title">Inteligência Artificial</p>
+          <p>Implementação de <strong>Chatbots e Agentes de IA</strong> para otimização de processos e atendimento automatizado.</p>
+          <div class="tags">
+            <span class="tag">Chatbots</span>
+            <span class="tag">Agentes IA</span>
+            <span class="tag">LLMs</span>
+          </div>
+        </div>
+
+        <div class="skill-block">
+          <p class="skill-block-title">Cloud &amp; Data Intelligence</p>
+          <p><strong>BigQuery</strong> e ecossistema <strong>Google Workspace</strong> (Apps Script, Sheets, Drive) para análise de grandes volumes de dados.</p>
+          <div class="tags">
+            <span class="tag">BigQuery</span>
+            <span class="tag">Apps Script</span>
+            <span class="tag">Google Workspace</span>
+          </div>
+        </div>
+
+        <div class="skill-block">
+          <p class="skill-block-title">Stack Tecnológico</p>
+          <p>Backend e scripts em <strong>Node.js, C#, Python</strong> e automações em ambientes cloud.</p>
+          <div class="tags">
+            <span class="tag">Node.js</span>
+            <span class="tag">C#</span>
+            <span class="tag">Python</span>
+          </div>
+        </div>
+
+        <!-- DBA -->
+        <div class="section-title">📊 Expertise em Dados (DBA)</div>
+        <div class="skill-block green">
+          <p class="skill-block-title">Administração de Bancos de Dados</p>
+          <p>Sólida experiência com passagens pela <strong>Caixa Econômica Federal</strong>. Domínio em administração e tuning de <strong>SQL Server, Oracle e MySQL</strong>.</p>
+          <div class="tags">
+            <span class="tag green">SQL Server</span>
+            <span class="tag green">Oracle</span>
+            <span class="tag green">MySQL</span>
+          </div>
+        </div>
+
+        <div class="skill-block green">
+          <p class="skill-block-title">ETL &amp; Pipelines de Dados</p>
+          <p>Desenvolvimento de pipelines de <strong>ETL</strong> robustos com SSIS e Pentaho. Garantia de segurança, integridade e alta disponibilidade.</p>
+          <div class="tags">
+            <span class="tag green">ETL</span>
+            <span class="tag green">SSIS</span>
+            <span class="tag green">Pentaho</span>
+          </div>
+        </div>
+
+        <!-- Visão 360 -->
+        <div class="section-title">🛠️ Visão 360° do Ciclo de Software</div>
+        <div class="skill-block red">
+          <p class="skill-block-title">Suporte → QA → Dev</p>
+          <p>Trajetória na <strong>Prosas</strong> passando por <strong>Suporte</strong> (troubleshooting) e <strong>QA</strong> (garantia de qualidade), resultando em softwares resilientes e centrados no usuário.</p>
+          <div class="tags">
+            <span class="tag red">Suporte</span>
+            <span class="tag red">QA</span>
+            <span class="tag red">Troubleshooting</span>
+          </div>
+        </div>
+
+        <!-- Hobbies -->
+        <div class="section-title">☕ Além do Código</div>
+        <div class="hobbies">
+          <span class="hobby">🤖 Novas LLMs</span>
+          <span class="hobby">⚔️ MMO RPG</span>
+          <span class="hobby">🎌 Animes</span>
+          <span class="hobby">☕ Café de Qualidade</span>
+        </div>
+
+        <p style="margin-top: 20px; font-size: 12px; color: var(--muted); font-style: italic;">
+          Fique à vontade para explorar meus projetos e entrar em contato para trocarmos ideias!
+        </p>
+      </section>
+
+      <!-- ── Panel: Redes ── -->
+      <section
+        class="tab-panel"
+        id="panel-redes"
+        role="tabpanel"
+        aria-labelledby="tab-redes"
+      >
+        <div class="section-title">🔗 Onde me encontrar</div>
+        <nav class="social-grid" aria-label="Links de redes sociais">
+
+          <a href="https://jaugustoguerra.github.io/meu-curriculo/" target="_blank" rel="noopener noreferrer" class="social-link curriculo">
+            <div class="social-icon">📄</div>
+            <div>
+              <div class="social-label">Currículo</div>
+              <div class="social-desc">jaugustoguerra.github.io/meu-curriculo</div>
+            </div>
+            <span class="social-arrow">→</span>
+          </a>
+
+          <a href="https://www.linkedin.com/in/augusto-guerra-silva/" target="_blank" rel="noopener noreferrer" class="social-link linkedin">
+            <div class="social-icon">💼</div>
+            <div>
+              <div class="social-label">LinkedIn</div>
+              <div class="social-desc">linkedin.com/in/augusto-guerra-silva</div>
+            </div>
+            <span class="social-arrow">→</span>
+          </a>
+
+          <a href="https://github.com/jaugustoguerra" target="_blank" rel="noopener noreferrer" class="social-link github">
+            <div class="social-icon">🐙</div>
+            <div>
+              <div class="social-label">GitHub</div>
+              <div class="social-desc">github.com/jaugustoguerra</div>
+            </div>
+            <span class="social-arrow">→</span>
+          </a>
+
+        </nav>
+      </section>
+
+      <!-- ── Footer ── -->
+      <footer class="card-footer">
+        <span>© 2025 José Augusto Guerra</span>
+        <span class="footer-status">● Disponível</span>
+      </footer>
+
+    </main>
+
+    <script>
+      function switchTab(name) {
+        // Update buttons
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+          const isActive = btn.id === `tab-${name}`;
+          btn.classList.toggle('active', isActive);
+          btn.setAttribute('aria-selected', isActive);
+        });
+        // Update panels
+        document.querySelectorAll('.tab-panel').forEach(panel => {
+          panel.classList.toggle('active', panel.id === `panel-${name}`);
+        });
+      }
+    </script>
+  </body>
 </html>
